@@ -65,10 +65,11 @@ public class ProcessTests {
     client.newCompleteCommand(activatedJob.getKey()).send().join();
     engine.waitForIdleState(Duration.ofMillis(1000));
 
-    // Then service task and process instance should be completed
+    // Then service task, business rule task, and process instance should be completed
     BpmnAssert.assertThat(piEvent)
         .hasPassedElementsInOrder("CallServiceTask","EvaluateBusinessRulesTask")
         .isCompleted()
+        // and business rule task result should be available as process data
         .hasVariableWithValue("result","aa");
   }
 }
