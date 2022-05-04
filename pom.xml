@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.camunda.example</groupId>
+  <artifactId>camunda8-testing</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>camunda8-testing</name>
+  <description>C8 testing example project</description>
+
+  <properties>
+    <java.version>11</java.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <zeebe.version>8.0.2</zeebe.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.camunda</groupId>
+      <artifactId>zeebe-process-test-extension</artifactId>
+      <version>${zeebe.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.36</version>
+    </dependency>
+  </dependencies>
+</project>
