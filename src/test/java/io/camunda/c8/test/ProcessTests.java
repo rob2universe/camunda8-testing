@@ -19,8 +19,8 @@ public class ProcessTests {
 
   private DeploymentEvent initDeployment() {
     return client.newDeployResourceCommand()
-        .addResourceFromClasspath("test-process.bpmn")
-        .addResourceFromClasspath("test-decision.dmn")
+        .addResourceFromClasspath("process.bpmn")
+        .addResourceFromClasspath("decision.dmn")
         .send()
         .join();
   }
