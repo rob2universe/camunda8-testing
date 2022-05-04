@@ -48,7 +48,7 @@ public class ProcessTests {
         .hasPassedElement("ProcessingStartedStartEvent")
         .isWaitingAtElements("CallServiceTask");
 
-    // When job is activate
+    // When job is activated
     var response = client.newActivateJobsCommand()
         .jobType("callService")
         .maxJobsToActivate(1)
