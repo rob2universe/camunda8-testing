@@ -64,7 +64,6 @@ public class ProcessTests {
     client.newCompleteCommand(activatedJob.getKey()).send().join();
     engine.waitForIdleState(Duration.ofMillis(500));
 
-
     // Then service task, business rule task, and process instance should be completed
     assertThat(piEvent)
         .hasPassedElementsInOrder("CallServiceTask", "EvaluateBusinessRulesTask")
