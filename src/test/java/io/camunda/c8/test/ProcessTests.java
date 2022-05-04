@@ -1,7 +1,5 @@
 package io.camunda.c8.test;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.DeploymentEvent;
 import io.camunda.zeebe.process.test.api.ZeebeTestEngine;
