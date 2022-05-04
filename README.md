@@ -9,6 +9,8 @@ If you have to run tests with an older JDK, please refer to the JDK 8+ approach 
 The test class [ProcessTests](./src/test/java/io/camunda/c8/test/ProcessTests.java) illustrates testing   
 - the process model deployment 
 - the start of a process instance
-- job completion 
+- job completion
+- DMN evaluation in a business rule task
 - successful termination of the process instance
+- validating correct DMN result
 
