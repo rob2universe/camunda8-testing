@@ -5,16 +5,15 @@ import com.google.gson.JsonObject;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.DeploymentEvent;
 import io.camunda.zeebe.process.test.api.ZeebeTestEngine;
-import io.camunda.zeebe.process.test.assertions.BpmnAssert;
 import io.camunda.zeebe.process.test.extension.ZeebeProcessTest;
 import io.camunda.zeebe.process.test.filters.RecordStream;
-import io.grpc.internal.JsonParser;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
+
+import static io.camunda.zeebe.process.test.assertions.BpmnAssert.assertThat;
 
 @ZeebeProcessTest
 public class ProcessTests {
@@ -32,7 +31,7 @@ public class ProcessTests {
 
   @Test
   public void testDeployment() {
-    BpmnAssert.assertThat(initDeployment());
+    assertThat(initDeployment());
   }
 
   @Test
@@ -43,15 +42,15 @@ public class ProcessTests {
     var piEvent = client.newCreateInstanceCommand()
         .bpmnProcessId("TestProcess")
         .latestVersion()
-        .variables(Map.of("myItem","a"))
+        .variables(Map.of("myItem", "a"))
         .send()
         .join();
     // Then instance should have passed start event and should be awaiting job completion
-    BpmnAssert.assertThat(piEvent)
+    assertThat(piEvent)
         .hasPassedElement("ProcessingStartedStartEvent")
         .isWaitingAtElements("CallServiceTask");
 
-    // When job is activate
+    // When job is activated
     var response = client.newActivateJobsCommand()
         .jobType("callService")
         .maxJobsToActivate(1)
@@ -59,19 +58,27 @@ public class ProcessTests {
         .join();
     // Then activated job should exist
     var activatedJob = response.getJobs().get(0);
-    BpmnAssert.assertThat(activatedJob);
+    assertThat(activatedJob);
 
     // When job is completed and process engine had time to continue processing
     client.newCompleteCommand(activatedJob.getKey()).send().join();
     engine.waitForIdleState(Duration.ofMillis(1000));
 
+
+    // Then service task, business rule task, and process instance should be completed
+
     String json = "{\"myOutput\":\"aa\",\"checkedItem\":\"a\"}";
     JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
-
-    // Then service task and process instance should be completed
-    BpmnAssert.assertThat(piEvent)
-        .hasPassedElementsInOrder("CallServiceTask","EvaluateBusinessRulesTask")
+    assertThat(piEvent)
+        .hasPassedElementsInOrder("CallServiceTask", "EvaluateBusinessRulesTask")
         .isCompleted()
-        .hasVariableWithValue("result",jsonObject.toString());
+        // and business rule task result should be available as process data
+        .hasVariableWithValue("result", jsonObject.toString());
+    //TODO
+    //java.lang.AssertionError: The variable 'result' does not have the expected value.
+    // The value passed in ('{"myOutput":"aa","checkedItem":"a"}') is internally mapped to a
+    // JSON String that yields '"{\"myOutput\":\"aa\",\"checkedItem\":\"a\"}"'.
+    // However, the actual value (as JSON String) is '{"myOutput":"aa","checkedItem":"a"}'.
+
   }
 }
