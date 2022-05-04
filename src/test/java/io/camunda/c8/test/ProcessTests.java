@@ -65,13 +65,10 @@ public class ProcessTests {
     client.newCompleteCommand(activatedJob.getKey()).send().join();
     engine.waitForIdleState(Duration.ofMillis(1000));
 
-    String json = "{\"myOutput\":\"aa\",\"checkedItem\":\"a\"}";
-    JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
-
     // Then service task and process instance should be completed
     BpmnAssert.assertThat(piEvent)
         .hasPassedElementsInOrder("CallServiceTask","EvaluateBusinessRulesTask")
         .isCompleted()
-        .hasVariableWithValue("result",jsonObject.toString());
+        .hasVariableWithValue("result","aa");
   }
 }

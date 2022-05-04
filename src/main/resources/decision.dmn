@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_99d90b2e-3675-44a8-842b-7e38de90a7b4" name="CheckItem" namespace="http://camunda.org/schema/1.0/dmn" camunda:diagramRelationId="2ffb3ea9-7596-432a-a9ce-1bac47a013a4" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.3.0">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_99d90b2e-3675-44a8-842b-7e38de90a7b4" name="CheckItem" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.0.0" camunda:diagramRelationId="2ffb3ea9-7596-432a-a9ce-1bac47a013a4">
   <decision id="Decision_CheckItem" name="Check Item">
     <decisionTable id="DecisionTable_0azx1hv">
       <input id="Input_1" label="myItem">
@@ -7,17 +7,13 @@
           <text>myItem</text>
         </inputExpression>
       </input>
-      <output id="Output_1" label="myOutput" name="myOutput" typeRef="string"/>
-      <output id="OutputClause_1lzu1tj" label="checkedItem" name="checkedItem" typeRef="string"/>
+      <output id="Output_1" label="myOutput" name="myOutput" typeRef="string" />
       <rule id="DecisionRule_0qmyhsl">
         <inputEntry id="UnaryTests_1hk0huc">
           <text>"a"</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0rg72wd">
           <text>"aa"</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_0419ctq">
-          <text>myItem</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_05d3x9i">
@@ -27,9 +23,6 @@
         <outputEntry id="LiteralExpression_0sgd30o">
           <text>"bb"</text>
         </outputEntry>
-        <outputEntry id="LiteralExpression_0yjrld9">
-          <text>myItem</text>
-        </outputEntry>
       </rule>
       <rule id="DecisionRule_0ozdf9j">
         <inputEntry id="UnaryTests_087nmtg">
@@ -38,16 +31,13 @@
         <outputEntry id="LiteralExpression_1pls6c5">
           <text>"cc"</text>
         </outputEntry>
-        <outputEntry id="LiteralExpression_0zcwrlj">
-          <text>myItem</text>
-        </outputEntry>
       </rule>
     </decisionTable>
   </decision>
   <dmndi:DMNDI>
     <dmndi:DMNDiagram>
       <dmndi:DMNShape dmnElementRef="Decision_CheckItem">
-        <dc:Bounds height="80" width="180" x="160" y="100"/>
+        <dc:Bounds height="80" width="180" x="160" y="100" />
       </dmndi:DMNShape>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
