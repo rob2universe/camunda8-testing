@@ -1,14 +1,19 @@
 package io.camunda.c8.test;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.DeploymentEvent;
 import io.camunda.zeebe.process.test.api.ZeebeTestEngine;
 import io.camunda.zeebe.process.test.assertions.BpmnAssert;
 import io.camunda.zeebe.process.test.extension.ZeebeProcessTest;
 import io.camunda.zeebe.process.test.filters.RecordStream;
+import io.grpc.internal.JsonParser;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 @ZeebeProcessTest
@@ -38,6 +43,7 @@ public class ProcessTests {
     var piEvent = client.newCreateInstanceCommand()
         .bpmnProcessId("TestProcess")
         .latestVersion()
+        .variables(Map.of("myItem","a"))
         .send()
         .join();
     // Then instance should have passed start event and should be awaiting job completion
@@ -57,11 +63,15 @@ public class ProcessTests {
 
     // When job is completed and process engine had time to continue processing
     client.newCompleteCommand(activatedJob.getKey()).send().join();
-    engine.waitForIdleState(Duration.ofMillis(100));
+    engine.waitForIdleState(Duration.ofMillis(1000));
+
+    String json = "{\"myOutput\":\"aa\",\"checkedItem\":\"a\"}";
+    JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
 
     // Then service task and process instance should be completed
     BpmnAssert.assertThat(piEvent)
-        .hasPassedElement("CallServiceTask")
-        .isCompleted();
+        .hasPassedElementsInOrder("CallServiceTask","EvaluateBusinessRulesTask")
+        .isCompleted()
+        .hasVariableWithValue("result",jsonObject.toString());
   }
 }
