@@ -72,6 +72,8 @@ public class ProcessTests {
         // and business rule task result should be available as process data
         .hasVariableWithValue("result", Map.of("checkedItem","a","myOutput","aa"));
     //TODO
+    // the test passed and sometimes fails, probably depending on the sequence of the serialization of the Map.
+    // When the test failes the error is:
     // java.lang.AssertionError: The variable 'result' does not have the expected value. The value passed in
     // ('{checkedItem=a, myOutput=aa}') is internally mapped to a JSON String that yields
     // '{"checkedItem":"a","myOutput":"aa"}'. However, the actual value (as JSON String) is
