@@ -62,23 +62,20 @@ public class ProcessTests {
 
     // When job is completed and process engine had time to continue processing
     client.newCompleteCommand(activatedJob.getKey()).send().join();
-    engine.waitForIdleState(Duration.ofMillis(1000));
+    engine.waitForIdleState(Duration.ofMillis(500));
 
 
     // Then service task, business rule task, and process instance should be completed
-
-    String json = "{\"myOutput\":\"aa\",\"checkedItem\":\"a\"}";
-    JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
     assertThat(piEvent)
         .hasPassedElementsInOrder("CallServiceTask", "EvaluateBusinessRulesTask")
         .isCompleted()
         // and business rule task result should be available as process data
-        .hasVariableWithValue("result", jsonObject.toString());
+        .hasVariableWithValue("result", Map.of("checkedItem","a","myOutput","aa"));
     //TODO
-    //java.lang.AssertionError: The variable 'result' does not have the expected value.
-    // The value passed in ('{"myOutput":"aa","checkedItem":"a"}') is internally mapped to a
-    // JSON String that yields '"{\"myOutput\":\"aa\",\"checkedItem\":\"a\"}"'.
-    // However, the actual value (as JSON String) is '{"myOutput":"aa","checkedItem":"a"}'.
+    // java.lang.AssertionError: The variable 'result' does not have the expected value. The value passed in
+    // ('{checkedItem=a, myOutput=aa}') is internally mapped to a JSON String that yields
+    // '{"checkedItem":"a","myOutput":"aa"}'. However, the actual value (as JSON String) is
+    // '{"myOutput":"aa","checkedItem":"a"}'.
 
   }
 }
